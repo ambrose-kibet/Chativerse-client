@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Average+Sans:400|Open+Sans:400');
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0rem;
+  padding: 0rem;
+}
+
+html {
+  font-size: 100%;
+} /*16px*/
+
+:root {
+  --color-background: #e6ecfe;
+  --color-purple-800: #4c1a57;
+  --color-purple-600: #7209b7;
+  --color-purple-400: #8338ec;
+  --color-purple-300: #9b5de5;
+  --color-purple-200: #a07ccc;
+  --color-text: #000000;
+  --color-primary: #0d1c2e;
+  --color-secondary: #2a8bf2;
+  --color-tertiary: #ff3366;
+  --color-gray: #707c97;
+  --color-white-200: #fafbff;
+  --color-white-100: #ffffff;
+}
+body {
+  background: var(--color-background);
+  font-family: 'Average Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #000000;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 3rem 0 1.38rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 3.052rem;
+}
+
+h2 {
+  font-size: 2.441rem;
+}
+
+h3 {
+  font-size: 1.953rem;
+}
+
+h4 {
+  font-size: 1.563rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+small,
+.text_small {
+  font-size: 0.8rem;
+}
