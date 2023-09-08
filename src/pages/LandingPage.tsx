@@ -14,7 +14,7 @@ const LandingPage = () => {
               <IoCheckbox />
             </button>
             <small>
-              By using chat App you agree to Terms and privacy policy
+              By using chatiVerse you agree to Terms and privacy policy
             </small>
           </div>
           <Link to="/auth">Get Started Now</Link>

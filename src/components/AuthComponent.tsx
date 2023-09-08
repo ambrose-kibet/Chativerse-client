@@ -1,15 +1,25 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputComponent from './InputComponent';
-import { handleChange } from '../redux/features/authSlice';
+import {
+  handleChange,
+  loginUser,
+  registerUser,
+} from '../redux/features/authSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks.ts';
 import type { RootState } from '../redux/store';
 import PasswordComponent from './PasswordInput.tsx';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import validator from 'validator';
 const AuthComponent = () => {
-  const [isRegister, setIsRegister] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const [isRegister, setIsRegister] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const {
     tempUser: { confirmPassword, email, fullName, password },
+    isLoading,
+    user,
   } = useAppSelector((state: RootState) => state.auth);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,11 +28,54 @@ const AuthComponent = () => {
   const toggleAuth = () => {
     setIsRegister((oldVal) => !oldVal);
   };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isRegister) {
+      if (!email || !password || !fullName || !confirmPassword) {
+        toast.error('Please fill all fields');
+        return;
+      }
+      if (password.length < 6) {
+        toast.error('Password must be at least 6 characters');
+        return;
+      }
+      if (password !== confirmPassword) {
+        toast.error('Password does not match');
+        return;
+      }
+      if (!validator.isEmail(email)) {
+        toast.error('Please provide a valid email');
+        return;
+      }
+      const tempUser = { email, password, fullName };
+      dispatch(registerUser(tempUser));
+    } else {
+      if (!email || !password) {
+        toast.error('Please provide email and password field');
+        return;
+      }
+      if (password.length < 6) {
+        toast.error('Password must be at least 6 characters');
+        return;
+      }
+      if (!validator.isEmail(email)) {
+        toast.error('Please provide a valid email');
+        return;
+      }
+      dispatch(loginUser({ email, password }));
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard/chats');
+    }
+  }, [user, navigate]);
   return (
     <AuthContainer>
       <p className="title">welcome {isRegister ? '' : 'back'}</p>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <h4>{isRegister ? 'Create an' : 'Login your'} account</h4>
         {isRegister && (
           <InputComponent
@@ -62,7 +115,12 @@ const AuthComponent = () => {
         <p>
           {isRegister ? 'Already have an account? ' : "Don't have an account? "}
         </p>
-        <button type="button" onClick={toggleAuth} className="btn-toggler">
+        <button
+          type="button"
+          onClick={toggleAuth}
+          className="btn-toggler"
+          disabled={isLoading}
+        >
           {isRegister ? 'Login' : 'Register'}
         </button>
       </div>
