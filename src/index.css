@@ -15,7 +15,6 @@ html {
   --color-background: #e6ecfe;
   --color-text: #000000;
   --color-primary: #0d1c2e;
-  --color-secondary: #2a8bf2;
   --color-tertiary: #ff3366;
   --color-gray: #707c97;
   --color-white-200: #fafbff;
@@ -97,6 +96,22 @@ small,
   letter-spacing: 0.1rem;
   cursor: pointer;
   transition: all 0.3s linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.pill {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--color-tertiary);
+  font-size: 0.75rem;
+  padding: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
