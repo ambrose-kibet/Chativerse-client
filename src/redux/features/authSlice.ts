@@ -135,10 +135,9 @@ export const logoutUser = createAsyncThunk(
           // Handle generic network error
           return thunkAPI.rejectWithValue('Network error');
         }
-      } else {
-        // Handle non-Axios error
-        return thunkAPI.rejectWithValue('something went wrong');
       }
+      // Handle non-Axios error
+      return thunkAPI.rejectWithValue('something went wrong');
     }
   }
 );
