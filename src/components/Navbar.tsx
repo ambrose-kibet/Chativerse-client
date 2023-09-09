@@ -5,8 +5,9 @@ import { IoMdContacts, IoMdPerson } from 'react-icons/io';
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { logoutUser } from '../redux/features/authSlice';
+import { RootState } from '../redux/store';
 const Navbar = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -20,6 +21,24 @@ const Navbar = () => {
       </div>
 
       <ul className="nav-body">
+        <li>
+          <NavLink
+            to="/dashboard/contacts"
+            className="link"
+            style={({ isActive }) =>
+              isActive
+                ? {
+                    color: '#8338ec',
+                    background: ' #e6ecfe',
+                    borderLeft: '3px solid var(--color-blue-400)',
+                  }
+                : { color: 'white', background: 'transparent' }
+            }
+          >
+            <IoMdContacts className="link-icon" />
+            <span>Contacts</span>
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/dashboard/chats"
@@ -43,24 +62,7 @@ const Navbar = () => {
             </span>
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/dashboard/contacts"
-            className="link"
-            style={({ isActive }) =>
-              isActive
-                ? {
-                    color: '#8338ec',
-                    background: ' #e6ecfe',
-                    borderLeft: '3px solid var(--color-blue-400)',
-                  }
-                : { color: 'white', background: 'transparent' }
-            }
-          >
-            <IoMdContacts className="link-icon" />
-            <span>Contacts</span>
-          </NavLink>
-        </li>
+
         <li>
           <NavLink
             to="/dashboard/profile"
@@ -164,6 +166,7 @@ const NavbarContainer = styled.nav`
         }
         .link-icon {
           font-size: 1.2rem;
+          display: flex;
         }
       }
     }
@@ -190,6 +193,46 @@ const NavbarContainer = styled.nav`
       }
       .link-icon {
         font-size: 1rem;
+      }
+    }
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    width: unset;
+    min-height: unset;
+    margin-right: unset;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+    border-radius: 0;
+    padding-right: 0;
+    .nav-header {
+      display: none;
+    }
+    .nav-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      li {
+        a {
+          padding: 0.5rem 1rem;
+          span {
+            margin-left: 0;
+          }
+          .link-icon {
+            display: none;
+          }
+        }
+      }
+    }
+    .footer {
+      width: unset;
+      padding: 0;
+      button {
+        span {
+          display: none;
+        }
       }
     }
   }
