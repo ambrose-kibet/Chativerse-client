@@ -124,10 +124,10 @@ export const logoutUser = createAsyncThunk(
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // Type control Axios error
-        const axiosError = error as AxiosError<{ message: string }, unknown>;
+        const axiosError = error as AxiosError<{ msg: string }, unknown>;
         if (axiosError.response) {
           // Handle HTTP error
-          return thunkAPI.rejectWithValue(axiosError.response.data.message);
+          return thunkAPI.rejectWithValue(axiosError.response.data.msg);
         } else if (axiosError.request) {
           // Handle request made but no response received
           return thunkAPI.rejectWithValue('No response received');
