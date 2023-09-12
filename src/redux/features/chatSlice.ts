@@ -16,7 +16,7 @@ type IMessage = {
   __v?: number;
 };
 
-type IMember = {
+export type IMember = {
   _id: string;
   fullName: string;
   avatar: string;
@@ -30,6 +30,7 @@ export type IChatObject = {
   latestMessageCreatedAt: string;
 };
 export interface ChatState {
+  [key: string]: unknown | null | boolean | string | IMessage[] | IMember[];
   currentChatId: string | null;
   conversations: IChatObject[];
   currentChatMessages: IMessage[];
@@ -66,16 +67,22 @@ export const getConversations = createAsyncThunk(
           return rejectWithValue('Network error');
         }
       }
-      return rejectWithValue('something went wrong');
+      return rejectWithValue('Something went wrong');
     }
   }
 );
+
 const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    setSearchTerm(state, action: PayloadAction<string>) {
-      state.searchTerm = action.payload;
+    setSearch(
+      state,
+      {
+        payload: { name, value },
+      }: PayloadAction<{ name: keyof typeof initialState; value: string }>
+    ) {
+      return { ...state, [name]: value };
     },
     setCurrentChatId(state, action: PayloadAction<string>) {
       state.currentChatId = action.payload;
@@ -99,6 +106,6 @@ const chatSlice = createSlice({
   },
 });
 
-export const { setSearchTerm, setCurrentChatId, clearCurrentChatId } =
+export const { setSearch, setCurrentChatId, clearCurrentChatId } =
   chatSlice.actions;
 export default chatSlice.reducer;
