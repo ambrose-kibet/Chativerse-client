@@ -43,6 +43,7 @@ const Input = styled.div`
   position: relative;
   background: transparent;
   margin-bottom: 1rem;
+  width: 100%;
   input {
     width: 100%;
     padding: 1rem 1.5rem;

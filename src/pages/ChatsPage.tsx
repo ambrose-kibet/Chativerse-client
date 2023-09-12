@@ -38,7 +38,7 @@ const ChatsContainer = styled.section`
   height: 100vh;
   width: 100%;
   max-width: 700px;
-  margin: 0 auto;
+  margin: 0 auto 0 0;
   gap: 0rem;
   align-items: flex-start;
 
@@ -75,6 +75,7 @@ const ChatsContainer = styled.section`
     text-align: center;
   }
   @media screen and (max-width: 768px) {
+    margin: 0 auto;
     .chats-header {
       display: none;
     }

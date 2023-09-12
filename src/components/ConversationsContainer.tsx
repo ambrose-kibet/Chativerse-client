@@ -3,7 +3,7 @@ import InputComponent from './InputComponent';
 import { BsChevronDown } from 'react-icons/bs';
 import { RootState } from '../redux/store';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { setSearchTerm } from '../redux/features/chatSlice';
+import { setSearch } from '../redux/features/chatSlice';
 import ConvoComponent from './ConvoComponent';
 
 const ConversationsContainer = () => {
@@ -13,7 +13,7 @@ const ConversationsContainer = () => {
   const { user } = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchTerm(e.target.value));
+    dispatch(setSearch({ name: e.target.name, value: e.target.value }));
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const ConversationsContainer = () => {
           placeholder="search"
           value={searchTerm}
           type="text"
-          name="search conversations"
+          name="searchTerm"
           handleChange={handleChange}
         />
         <button type="submit">
@@ -45,7 +45,6 @@ export default ConversationsContainer;
 const ConvoContainer = styled.div`
   display: flex;
   flex-direction: column;
-
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0rem;
@@ -53,6 +52,7 @@ const ConvoContainer = styled.div`
   height: calc(100vh - 6rem);
   max-height: calc(100vh - 6rem);
   overflow-y: scroll;
+
   form {
     display: flex;
     justify-content: space-between;
@@ -89,5 +89,9 @@ const ConvoContainer = styled.div`
     grid-template-columns: 1fr;
     gap: 0.5rem;
     justify-content: flex-start;
+  }
+  @media screen and (max-width: 768px) {
+    height: calc(100vh - 3rem);
+    max-height: calc(100vh - 3rem);
   }
 `;
