@@ -116,3 +116,18 @@ ul {
   align-items: center;
   justify-content: center;
 }
+
+.pill--small {
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.6rem;
+  padding: 0.1rem;
+}
+
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-blue-400);
+  border-radius: 1rem;
+}
