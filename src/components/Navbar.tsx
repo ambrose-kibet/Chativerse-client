@@ -62,7 +62,6 @@ const Navbar = () => {
             </span>
           </NavLink>
         </li>
-
         <li>
           <NavLink
             to="/dashboard/profile"

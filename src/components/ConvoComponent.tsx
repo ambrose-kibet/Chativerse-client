@@ -1,9 +1,14 @@
 import { styled } from 'styled-components';
 import { Tuser } from '../redux/features/authSlice';
-import { IChatObject } from '../redux/features/chatSlice';
+import {
+  IChatObject,
+  setCurrentChatId,
+  setCurrentChatMember,
+} from '../redux/features/chatSlice';
 import { Link } from 'react-router-dom';
 import { BsImageFill } from 'react-icons/bs';
 import moment from 'moment';
+import { useAppDispatch } from '../redux/hooks';
 
 const ConvoComponent = ({
   conversation,
@@ -12,14 +17,18 @@ const ConvoComponent = ({
   conversation: IChatObject;
   user: Tuser | null;
 }) => {
+  const dispatch = useAppDispatch();
   const { _id, latestMessageCreatedAt, messages, otherMembers } = conversation;
   const otherMember = otherMembers.find(
     (member) => member._id !== user?.userId
   );
-
+  const setChatValues = () => {
+    dispatch(setCurrentChatId(_id));
+    dispatch(setCurrentChatMember(otherMember!));
+  };
   return (
     <ConvoContainer>
-      <Link to={`/dashboard/chats/${_id}`}>
+      <Link to={`/dashboard/chats/${_id}`} onClick={setChatValues}>
         <div className="convo-header">
           <div className="header-convo-container">
             <img src={otherMember?.avatar} alt="avatar" width={'40px'} />

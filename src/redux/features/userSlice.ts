@@ -42,8 +42,6 @@ export const getContacts = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await authInstance.get('/users/contacts');
-      console.log(data);
-
       return data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
