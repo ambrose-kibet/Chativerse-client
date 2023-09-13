@@ -3,6 +3,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { authInstance } from '../../utils/axios';
 import { logoutUser } from './authSlice';
 import axios, { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 type IMessage = {
   _id?: string;
@@ -71,6 +72,36 @@ export const getConversations = createAsyncThunk(
     }
   }
 );
+export const createChat = createAsyncThunk(
+  'chat/createChat',
+  async (
+    { recipientId }: { recipientId: string },
+    { dispatch, rejectWithValue }
+  ) => {
+    try {
+      const { data } = await authInstance.post('/chats', { recipientId });
+      console.log(data);
+
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<{ msg: string }, unknown>;
+        if (axiosError.response) {
+          if (axiosError.response.status === 401) {
+            dispatch(logoutUser());
+            return rejectWithValue('Unauthorized Logging you out...');
+          }
+          return rejectWithValue(axiosError.response.data.msg);
+        } else if (axiosError.request) {
+          return rejectWithValue('No response received');
+        } else {
+          return rejectWithValue('Network error');
+        }
+      }
+      return rejectWithValue('Something went wrong');
+    }
+  }
+);
 
 const chatSlice = createSlice({
   name: 'chat',
@@ -87,8 +118,14 @@ const chatSlice = createSlice({
     setCurrentChatId(state, action: PayloadAction<string>) {
       state.currentChatId = action.payload;
     },
-    clearCurrentChatId(state) {
+
+    setCurrentChatMember: (state, { payload }: PayloadAction<IMember>) => {
+      state.currentChatMember = payload;
+    },
+    clearCurrentChatInfo: (state) => {
       state.currentChatId = null;
+      state.currentChatMember = null;
+      state.currentChatMessages = [];
     },
   },
   extraReducers: (builder) => {
@@ -100,12 +137,29 @@ const chatSlice = createSlice({
         state.isLoading = false;
         state.conversations = payload.chats;
       })
-      .addCase(getConversations.rejected, (state) => {
+      .addCase(getConversations.rejected, (state, { payload }) => {
         state.isLoading = false;
+        toast.error(payload as string);
+      });
+    builder
+      .addCase(createChat.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createChat.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.currentChatId = payload.chat._id;
+      })
+      .addCase(createChat.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload as string);
       });
   },
 });
 
-export const { setSearch, setCurrentChatId, clearCurrentChatId } =
-  chatSlice.actions;
+export const {
+  setSearch,
+  setCurrentChatId,
+  clearCurrentChatInfo,
+  setCurrentChatMember,
+} = chatSlice.actions;
 export default chatSlice.reducer;
