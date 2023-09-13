@@ -1,11 +1,16 @@
 import styled from 'styled-components';
-import { IMember } from '../redux/features/chatSlice';
+import { IMember, setCurrentChatMember } from '../redux/features/chatSlice';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../redux/hooks';
 
 const Contact = ({ contact }: { contact: IMember }) => {
+  const dispatch = useAppDispatch();
   const { avatar, fullName, _id } = contact;
   return (
-    <ContactContainer to={`/dashboard/chats/${_id}`}>
+    <ContactContainer
+      to={`/dashboard/chats/${_id}`}
+      onClick={() => dispatch(setCurrentChatMember({ avatar, fullName, _id }))}
+    >
       <div className="avatar-container">
         <img src={avatar} alt={fullName} />
       </div>
