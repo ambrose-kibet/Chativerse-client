@@ -14,6 +14,8 @@ import { toast } from 'react-toastify';
 import PasswordResetForm from '../components/PasswordResetForm';
 import validator from 'validator';
 
+import { FaFileUpload } from 'react-icons/fa';
+
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
   const {
@@ -23,8 +25,6 @@ const ProfilePage = () => {
   useEffect(() => {
     dispatch(getCurrentUser());
   }, [dispatch]);
-
-  // file uploaded from src/pages/ProfilePage.tsx
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (!e.target.files?.item(0)) {
@@ -69,12 +69,20 @@ const ProfilePage = () => {
       <form className="userDetails" onSubmit={handleUpdateProfile}>
         <div className="userDetails__avatar">
           <img src={avatar} alt="avatar" />
+          <label htmlFor="avatar" className="custom-file-label">
+            <span className="upload-icon">
+              <FaFileUpload />
+            </span>
+            change avatar
+          </label>
           <input
             type="file"
             name="avatar"
             id="avatar"
+            accept="image/*"
             onChange={handleUploadImage}
             disabled={isLoading}
+            style={{ display: 'none' }}
           />
         </div>
         <div className="details-container">
@@ -137,6 +145,18 @@ const ProfileContainer = styled.section`
       justify-content: center;
       align-items: center;
       gap: 0.5rem;
+      label {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        text-transform: capitalize;
+        .upload-icon {
+          font-size: 1.5rem;
+          color: var(--color-blue-400);
+        }
+      }
       img {
         width: 5rem;
         height: 5rem;
