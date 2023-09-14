@@ -4,26 +4,26 @@ import { FaArrowLeftLong } from 'react-icons/fa6';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { RootState } from '../redux/store';
 import { useEffect } from 'react';
-import { clearCurrentChatInfo, createChat } from '../redux/features/chatSlice';
+import { createChat } from '../redux/features/chatSlice';
+
+import MessagesContainer from '../components/MessagesContainer';
+import SendComponent from '../components/SendComponent';
 
 const SingleChat = () => {
   const dispatch = useAppDispatch();
-  const { currentChatId, currentChatMember } = useAppSelector(
+  const { currentChatMember } = useAppSelector(
     (state: RootState) => state.chat
   );
 
   useEffect(() => {
-    if (currentChatId) return;
     if (!currentChatMember) return;
     dispatch(createChat({ recipientId: currentChatMember?._id }));
-  }, [currentChatId, currentChatMember, dispatch]);
-  const clearMember = () => {
-    dispatch(clearCurrentChatInfo());
-  };
+  }, [currentChatMember, dispatch]);
+
   return (
     <SingleChatContainer>
       <div className="chat-header">
-        <Link to="/dashboard/chats" onClick={clearMember}>
+        <Link to="/dashboard/chats">
           <FaArrowLeftLong />
         </Link>
         <div className="user-info">
@@ -36,32 +36,31 @@ const SingleChat = () => {
           </div>
         </div>
       </div>
-      <div className="chat-body">
-        <div className="chat">
-          <p className="chat-text">Hello</p>
-        </div>
-        <div className="chat">
-          <p className="chat-text">Hello</p>
-        </div>
-        <div className="chat"></div>
-      </div>
-      <div className="chat-input">
-        <input type="text" placeholder="Type a message" />
-        <button>Send</button>
-      </div>
+      <MessagesContainer />
+      <SendComponent />
     </SingleChatContainer>
   );
 };
 export default SingleChat;
 
 const SingleChatContainer = styled.section`
-  display: flex;
+  width: 100%;
+  height: 100%;
+  max-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem;
+  padding: 0 0.5rem;
+  max-width: 700px;
+  margin: 0 auto 0 0;
+  align-items: flex-start;
 
   .chat-header {
+    width: 100%;
     display: flex;
     align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid var(--color-gray-300);
+    gap: 1rem;
+    padding: 0.3rem;
     a {
       color: var(--color-blue-400);
       font-size: 1.5rem;
@@ -87,15 +86,13 @@ const SingleChatContainer = styled.section`
         margin: 0;
         font-size: 0.75rem;
         color: var(--color-gray);
-        .status {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: var(--color-green);
-          display: inline-block;
-          margin-right: 0.5rem;
-        }
       }
+    }
+  }
+  @media screen and (max-width: 768px) {
+    margin: 0 auto;
+    .chat-header {
+      display: none;
     }
   }
 `;

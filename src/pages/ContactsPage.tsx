@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { getContacts, setSearch } from '../redux/features/userSlice';
 import InputComponent from '../components/InputComponent';
 import { RootState } from '../redux/store';
+import { clearCurrentChatInfo } from '../redux/features/chatSlice';
 
 const ContactsPage = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,9 @@ const ContactsPage = () => {
   const { contacts, contactSerachTerm } = useAppSelector(
     (state: RootState) => state.user
   );
+  useEffect(() => {
+    dispatch(clearCurrentChatInfo());
+  }, [dispatch]);
   return (
     <ContactsContainer>
       <InputComponent

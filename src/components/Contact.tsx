@@ -9,7 +9,9 @@ const Contact = ({ contact }: { contact: IMember }) => {
   return (
     <ContactContainer
       to={`/dashboard/chats/${_id}`}
-      onClick={() => dispatch(setCurrentChatMember({ avatar, fullName, _id }))}
+      onClick={() => {
+        dispatch(setCurrentChatMember({ avatar, fullName, _id }));
+      }}
     >
       <div className="avatar-container">
         <img src={avatar} alt={fullName} />
@@ -17,7 +19,9 @@ const Contact = ({ contact }: { contact: IMember }) => {
       <div className="contact-info">
         <h3>{fullName}</h3>
         {/* remeber to change this */}
-        <p>online</p>
+        <p>
+          <span className="status"></span>online
+        </p>
       </div>
     </ContactContainer>
   );
