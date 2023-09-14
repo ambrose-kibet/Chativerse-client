@@ -151,6 +151,9 @@ const authSlice = createSlice({
     ) => {
       state.tempUser = { ...state.tempUser, [name]: value };
     },
+    setUser: (state, { payload }: PayloadAction<Tuser>) => {
+      state.user = payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -195,5 +198,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { handleChange } = authSlice.actions;
+export const { handleChange, setUser } = authSlice.actions;
 export default authSlice.reducer;

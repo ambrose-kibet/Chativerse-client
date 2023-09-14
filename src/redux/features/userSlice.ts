@@ -3,7 +3,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { authInstance } from '../../utils/axios';
 import { IMember } from './chatSlice';
 import { toast } from 'react-toastify';
-import { logoutUser } from './authSlice';
+import { logoutUser, setUser } from './authSlice';
 import axios, { AxiosError } from 'axios';
 import { saveToLocalStorage } from '../../utils/localStorage';
 
@@ -164,6 +164,13 @@ export const updateProfile = createAsyncThunk(
         avatar: response.data.user.avatar,
         name: response.data.user.name,
       });
+      dispatch(
+        setUser({
+          userId: response.data.user.userId,
+          avatar: response.data.user.avatar,
+          name: response.data.user.name,
+        })
+      );
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
