@@ -13,6 +13,7 @@ html {
 
 :root {
   --color-background: #e6ecfe;
+  --color-green: rgb(80, 196, 80);
   --color-text: #000000;
   --color-primary: #0d1c2e;
   --color-tertiary: #ff3366;
@@ -122,6 +123,15 @@ ul {
   height: 1rem;
   font-size: 0.6rem;
   padding: 0.1rem;
+}
+
+.status {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-green);
+  display: inline-block;
+  margin-right: 0.5rem;
 }
 
 ::-webkit-scrollbar {
