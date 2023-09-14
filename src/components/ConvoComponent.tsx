@@ -1,10 +1,6 @@
 import { styled } from 'styled-components';
 import { Tuser } from '../redux/features/authSlice';
-import {
-  IChatObject,
-  setCurrentChatId,
-  setCurrentChatMember,
-} from '../redux/features/chatSlice';
+import { IChatObject, setCurrentChatMember } from '../redux/features/chatSlice';
 import { Link } from 'react-router-dom';
 import { BsImageFill } from 'react-icons/bs';
 import moment from 'moment';
@@ -23,7 +19,6 @@ const ConvoComponent = ({
     (member) => member._id !== user?.userId
   );
   const setChatValues = () => {
-    dispatch(setCurrentChatId(_id));
     dispatch(setCurrentChatMember(otherMember!));
   };
   return (
@@ -36,7 +31,7 @@ const ConvoComponent = ({
               <h5>{otherMember?.fullName}</h5>
               <h6>
                 {/* remember to change this */}
-                <span></span> online
+                <span className="status"></span> online
               </h6>
             </div>
           </div>

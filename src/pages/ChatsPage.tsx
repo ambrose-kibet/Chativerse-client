@@ -4,13 +4,19 @@ import { FaPlus } from 'react-icons/fa';
 import ConversationsContainer from '../components/ConversationsContainer';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { getConversations } from '../redux/features/chatSlice';
+import {
+  clearCurrentChatInfo,
+  getConversations,
+} from '../redux/features/chatSlice';
 import { RootState } from '../redux/store';
 const ChatsPage = () => {
   const dispatch = useAppDispatch();
   const { conversations } = useAppSelector((state: RootState) => state.chat);
   useEffect(() => {
     dispatch(getConversations());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(clearCurrentChatInfo());
   }, [dispatch]);
   return (
     <ChatsContainer>
