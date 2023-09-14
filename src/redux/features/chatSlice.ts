@@ -39,11 +39,19 @@ export interface ChatState {
   isLoading: boolean;
   searchTerm: string;
 }
+const getCurentChatMember = () => {
+  const currentChatMember = localStorage.getItem('currentChatMember');
+  if (currentChatMember) {
+    return JSON.parse(currentChatMember);
+  }
+  return null;
+};
+
 const initialState: ChatState = {
-  currentChatId: null,
+  currentChatId: localStorage.getItem('currentChatId') || null,
   conversations: [],
   currentChatMessages: [],
-  currentChatMember: null,
+  currentChatMember: getCurentChatMember(),
   isLoading: false,
   searchTerm: '',
 };
@@ -80,7 +88,6 @@ export const createChat = createAsyncThunk(
   ) => {
     try {
       const { data } = await authInstance.post('/chats', { recipientId });
-      console.log(data);
 
       return data;
     } catch (error) {
@@ -103,6 +110,31 @@ export const createChat = createAsyncThunk(
   }
 );
 
+export const getMessages = createAsyncThunk(
+  'chat/getMessages',
+  async (chatId: string, { dispatch, rejectWithValue }) => {
+    try {
+      const { data } = await authInstance.get(`/messages/${chatId}`);
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<{ msg: string }, unknown>;
+        if (axiosError.response) {
+          if (axiosError.response.status === 401) {
+            dispatch(logoutUser());
+            return rejectWithValue('Unauthorized Logging you out...');
+          }
+          return rejectWithValue(axiosError.response.data.msg);
+        } else if (axiosError.request) {
+          return rejectWithValue('No response received');
+        } else {
+          return rejectWithValue('Network error');
+        }
+      }
+      return rejectWithValue('Something went wrong');
+    }
+  }
+);
 const chatSlice = createSlice({
   name: 'chat',
   initialState,
@@ -117,11 +149,14 @@ const chatSlice = createSlice({
     },
     setCurrentChatId(state, action: PayloadAction<string>) {
       state.currentChatId = action.payload;
+      localStorage.setItem('currentChatId', action.payload);
     },
 
     setCurrentChatMember: (state, { payload }: PayloadAction<IMember>) => {
       state.currentChatMember = payload;
+      localStorage.setItem('currentChatMember', JSON.stringify(payload));
     },
+
     clearCurrentChatInfo: (state) => {
       state.currentChatId = null;
       state.currentChatMember = null;
@@ -150,6 +185,18 @@ const chatSlice = createSlice({
         state.currentChatId = payload.chat._id;
       })
       .addCase(createChat.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload as string);
+      });
+    builder
+      .addCase(getMessages.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMessages.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.currentChatMessages = payload.messages;
+      })
+      .addCase(getMessages.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload as string);
       });
