@@ -18,6 +18,7 @@ const ConvoComponent = ({
   const otherMember = otherMembers.find(
     (member) => member._id !== user?.userId
   );
+
   const setChatValues = () => {
     dispatch(setCurrentChatMember(otherMember!));
   };
@@ -35,7 +36,7 @@ const ConvoComponent = ({
               </h6>
             </div>
           </div>
-          <h6>{moment(latestMessageCreatedAt).startOf('day').fromNow()}</h6>
+          <h6>{moment(latestMessageCreatedAt).fromNow()}</h6>
         </div>
         <div className="convo-body">
           <div className="preview-msg">
