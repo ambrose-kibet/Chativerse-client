@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import { IMember, setCurrentChatMember } from '../redux/features/chatSlice';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { RootState } from '../redux/store';
 
 const Contact = ({ contact }: { contact: IMember }) => {
   const dispatch = useAppDispatch();
   const { avatar, fullName, _id } = contact;
+  const { onlineUsers } = useAppSelector((state: RootState) => state.user);
+  const isOnline = onlineUsers.find((onlineUser: string) => onlineUser === _id);
   return (
     <ContactContainer
       to={`/dashboard/chats/${_id}`}
@@ -18,9 +21,9 @@ const Contact = ({ contact }: { contact: IMember }) => {
       </div>
       <div className="contact-info">
         <h3>{fullName}</h3>
-        {/* remeber to change this */}
         <p>
-          <span className="status"></span>online
+          <span className={isOnline ? 'status' : 'status status-gray'}></span>
+          {isOnline ? 'online' : 'offline'}
         </p>
       </div>
     </ContactContainer>
