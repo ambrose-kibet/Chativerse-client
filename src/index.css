@@ -133,7 +133,9 @@ ul {
   display: inline-block;
   margin-right: 0.5rem;
 }
-
+.status-gray {
+  background: var(--color-gray);
+}
 ::-webkit-scrollbar {
   width: 0.25rem;
 }
