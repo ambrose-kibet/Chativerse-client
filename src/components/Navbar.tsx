@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { logoutUser } from '../redux/features/authSlice';
 import { RootState } from '../redux/store';
+import Count from './Count';
 const Navbar = () => {
   const { user } = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
@@ -55,10 +56,7 @@ const Navbar = () => {
           >
             <AiFillWechat className="link-icon" />
             <span>
-              Chats{' '}
-              <span className="pill" style={{ color: 'white' }}>
-                12
-              </span>
+              Chats <Count />
             </span>
           </NavLink>
         </li>
@@ -206,6 +204,10 @@ const NavbarContainer = styled.nav`
     padding: 0 0.5rem;
     border-radius: 0;
     padding-right: 0;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
     .nav-header {
       display: none;
     }
