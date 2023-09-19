@@ -13,18 +13,20 @@ html {
 
 :root {
   --color-background: #e6ecfe;
-  --color-purple-800: #4c1a57;
-  --color-purple-600: #7209b7;
-  --color-purple-400: #8338ec;
-  --color-purple-300: #9b5de5;
-  --color-purple-200: #a07ccc;
+  --color-green: rgb(80, 196, 80);
   --color-text: #000000;
   --color-primary: #0d1c2e;
-  --color-secondary: #2a8bf2;
   --color-tertiary: #ff3366;
   --color-gray: #707c97;
   --color-white-200: #fafbff;
   --color-white-100: #ffffff;
+  --color-secondary: #2a8bf2;
+  --color-blue-800: #4c1a57;
+  --color-blue-600: #7209b7;
+  --color-blue-400: #8338ec;
+  --color-blue-300: #9b5de5;
+  --color-blue-200: #a07ccc;
+  --max-width: 1200px;
 }
 body {
   background: var(--color-background);
@@ -73,4 +75,71 @@ h5 {
 small,
 .text_small {
   font-size: 0.8rem;
+}
+
+.section-container {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  background: linear-gradient(
+    45deg,
+    var(--color-blue-200),
+    var(--color-blue-400)
+  );
+  border-radius: 2.5rem;
+  color: var(--color-white-100);
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  transition: all 0.3s linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.pill {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--color-tertiary);
+  font-size: 0.75rem;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pill--small {
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.6rem;
+  padding: 0.1rem;
+}
+
+.status {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-green);
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+.status-gray {
+  background: var(--color-gray);
+}
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-blue-400);
+  border-radius: 1rem;
 }
