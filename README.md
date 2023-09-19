@@ -70,8 +70,8 @@
 
 
 
-- **Send Messages and mages**
-- **Cutomize your profile**
+- **Send text and mages**
+- **Customize your profile**
 - **Contacts Page**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
