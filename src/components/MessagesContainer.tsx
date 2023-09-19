@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getMessages } from '../redux/features/chatSlice';
+import { IMessage, getMessages } from '../redux/features/chatSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { RootState } from '../redux/store';
 import { useEffect, useRef } from 'react';
@@ -26,7 +26,7 @@ const MessagesContainer = () => {
   return (
     <Messages>
       {(currentChatMessages.length > 0 &&
-        currentChatMessages.map((message) => {
+        currentChatMessages.map((message: IMessage) => {
           return (
             <div
               className={user?.userId === message.sender ? 'chat sent' : 'chat'}
@@ -59,15 +59,8 @@ const Messages = styled.div`
   justify-content: flex-start;
   gap: 0.25rem;
   padding: 0 0.5rem;
+  width: 100%;
 
-  h3 {
-    margin: 0;
-    font-size: 0.75rem;
-    color: var(--color-gray);
-    text-align: center;
-    text-transform: capitalize;
-    font-weight: 700;
-  }
   .chat {
     display: flex;
     flex-direction: column;
@@ -76,6 +69,7 @@ const Messages = styled.div`
     width: fit-content;
     padding: 0.5rem;
     border-radius: 0.5rem;
+    max-width: 330px;
     background: var(--color-white-100);
     img {
       width: 100%;
@@ -87,24 +81,10 @@ const Messages = styled.div`
       font-size: 0.75rem;
       color: var(--color-gray);
       text-align: left;
-      font-weight: 700;
+      font-weight: 500;
+      letter-spacing: 0.1rem;
     }
 
-    &.sent {
-      align-items: flex-end;
-      background: linear-gradient(
-        90deg,
-        var(--color-blue-600),
-        var(--color-blue-400)
-      );
-      color: var(--color-white-100);
-      .chat-text {
-        color: var(--color-white-100);
-      }
-      .date {
-        color: var(--color-white-100);
-      }
-    }
     .date {
       margin: 0;
       font-size: 0.5rem;
@@ -112,7 +92,19 @@ const Messages = styled.div`
       text-align: right;
     }
   }
-
+  .sent {
+    margin-left: auto;
+    align-items: flex-end;
+    background: var(--color-blue-400);
+    color: var(--color-white-100);
+    .chat-text {
+      color: var(--color-white-100);
+      letter-spacing: 0.15rem;
+    }
+    .date {
+      color: var(--color-white-100);
+    }
+  }
   .last-item {
     width: 100%;
     height: 0.25rem;
@@ -140,8 +132,5 @@ const Messages = styled.div`
         height: auto;
       }
     }
-  }
-  @media screen and (max-width: 768px) {
-    height: calc(100vh - 6rem);
   }
 `;
