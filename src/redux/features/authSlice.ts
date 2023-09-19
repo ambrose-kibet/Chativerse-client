@@ -7,6 +7,7 @@ import {
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { authInstance } from '../../utils/axios';
+import socket from '../../utils/socketService';
 
 type ItempUser = {
   fullName: string;
@@ -188,10 +189,12 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
+        socket.emit('leave', state.user?.userId);
         state.user = payload;
       })
       .addCase(logoutUser.rejected, (state, { payload }) => {
         state.isLoading = false;
+        socket.emit('leave', state.user?.userId);
         state.user = null;
         toast.error(payload as string);
       });
