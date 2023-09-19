@@ -4,7 +4,8 @@ import { IChatObject, setCurrentChatMember } from '../redux/features/chatSlice';
 import { Link } from 'react-router-dom';
 import { BsImageFill } from 'react-icons/bs';
 import moment from 'moment';
-import { useAppDispatch } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { RootState } from '../redux/store';
 
 const ConvoComponent = ({
   conversation,
@@ -14,14 +15,31 @@ const ConvoComponent = ({
   user: Tuser | null;
 }) => {
   const dispatch = useAppDispatch();
-  const { _id, latestMessageCreatedAt, messages, otherMembers } = conversation;
-  const otherMember = otherMembers.find(
-    (member) => member._id !== user?.userId
+  const {
+    _id,
+    latestMessage,
+    member1Details,
+    member2Details,
+    messages,
+    unreadMessages,
+  } = conversation;
+  const otherMember =
+    user?.userId === member1Details[0]._id
+      ? member2Details[0]
+      : member1Details[0];
+  const { createdAt: latestMessageCreatedAt } = latestMessage;
+  const { onlineUsers } = useAppSelector((state: RootState) => state.user);
+  const isOnline = onlineUsers.find(
+    (onlineUser: string) => onlineUser === otherMember?._id
   );
-
   const setChatValues = () => {
     dispatch(setCurrentChatMember(otherMember!));
   };
+  let unreadCount = 0;
+  if (user?.userId) {
+    unreadCount = unreadMessages[user?.userId] || 0;
+  }
+
   return (
     <ConvoContainer>
       <Link to={`/dashboard/chats/${_id}`} onClick={setChatValues}>
@@ -31,8 +49,10 @@ const ConvoComponent = ({
             <div className="convo-header-text">
               <h5>{otherMember?.fullName}</h5>
               <h6>
-                {/* remember to change this */}
-                <span className="status"></span> online
+                <span
+                  className={isOnline ? 'status' : 'status status-gray'}
+                ></span>
+                {isOnline ? 'online' : 'offline'}
               </h6>
             </div>
           </div>
@@ -40,9 +60,11 @@ const ConvoComponent = ({
         </div>
         <div className="convo-body">
           <div className="preview-msg">
-            {messages[messages.length - 1].text && (
+            {latestMessage.text && (
               <p className="preview-text">
-                {messages[messages.length - 1].text}
+                {(latestMessage.text as string).length > 30
+                  ? latestMessage.text?.slice(0, 30) + '...'
+                  : latestMessage.text}
               </p>
             )}
             {messages[messages.length - 1].imageUrl && (
@@ -52,7 +74,9 @@ const ConvoComponent = ({
               </p>
             )}
           </div>
-          <div className="pill pill--small">2</div>
+          {unreadCount > 0 && (
+            <div className="pill pill--small">{unreadCount}</div>
+          )}
         </div>
       </Link>
     </ConvoContainer>
