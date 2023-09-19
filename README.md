@@ -30,7 +30,7 @@
 
 # 📖 ChatiVerse <a name="about-project"></a>
 
-**ChatiVerse** is an incredibly fast real-time chat app Powered by React, TypeScript, Redux Toolkit, Socket.io, Node.js, MongoDB, and Express. The application lets you effortlessly send and receive messages and image files in real-time.
+**Chativerse** is an incredibly fast real-time chat app Powered by React, TypeScript, Redux Toolkit, Socket.io, Node.js, MongoDB, and Express. The application lets you effortlessly send and receive messages and image files in real-time.
 
 ## 🛠 Built With <a name="built-with"></a>
 
