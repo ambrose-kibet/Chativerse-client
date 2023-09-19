@@ -17,11 +17,12 @@ type ICurrentUser = {
   confirmPassword: string;
 };
 type IuserState = {
-  [key: string]: boolean | string | IMember[] | ICurrentUser;
+  [key: string]: boolean | string | IMember[] | ICurrentUser | string[];
   contacts: IMember[];
   contactSerachTerm: string;
   isLoading: boolean;
   currentUser: ICurrentUser;
+  onlineUsers: string[];
 };
 
 const initialState: IuserState = {
@@ -36,6 +37,7 @@ const initialState: IuserState = {
     newPassword: '',
     confirmPassword: '',
   },
+  onlineUsers: [],
 };
 export const getContacts = createAsyncThunk(
   'user/getContacts',
@@ -214,6 +216,9 @@ const userSlice = createSlice({
     ) => {
       return { ...state, currentUser: { ...state.currentUser, [name]: value } };
     },
+    setOnlineUsers: (state, { payload }: PayloadAction<string[]>) => {
+      return { ...state, onlineUsers: payload };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -282,5 +287,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setSearch, changeUserInput } = userSlice.actions;
+export const { setSearch, changeUserInput, setOnlineUsers } = userSlice.actions;
 export default userSlice.reducer;
