@@ -68,7 +68,7 @@
 
 ### Key Features <a name="key-features"></a>
 
-> Describe between 1-3 key features of the application.
+
 
 - **Send Messages and mages**
 - **Cutomize your profile**
@@ -102,7 +102,7 @@ Clone this repository to your desired folder:
 
 ```sh
   cd my-folder
-  git clone https://github.com/ambrose-kibet/ChatiVerse-client.git
+  git clone https://github.com/ambrose-kibet/Chativerse-client.git
 ```
 
 ### Install
@@ -110,7 +110,7 @@ Clone this repository to your desired folder:
 Install this project with:
 
 ```sh
-  cd ChatiVerse-clien
+  cd Chativerse-client
   npm install
 ```
 
