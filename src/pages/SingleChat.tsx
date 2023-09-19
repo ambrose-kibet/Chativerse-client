@@ -14,7 +14,10 @@ const SingleChat = () => {
   const { currentChatMember } = useAppSelector(
     (state: RootState) => state.chat
   );
-
+  const { onlineUsers } = useAppSelector((state: RootState) => state.user);
+  const isOnline = onlineUsers.find(
+    (onlineUser: string) => onlineUser === currentChatMember?._id
+  );
   useEffect(() => {
     if (!currentChatMember) return;
     dispatch(createChat({ recipientId: currentChatMember?._id }));
@@ -31,7 +34,10 @@ const SingleChat = () => {
           <div>
             <h3>{currentChatMember?.fullName}</h3>
             <p>
-              <span className="status"></span>online
+              <span
+                className={isOnline ? 'status' : 'status status-gray'}
+              ></span>
+              {isOnline ? 'online' : 'offline'}
             </p>
           </div>
         </div>
@@ -54,6 +60,7 @@ const SingleChatContainer = styled.section`
   max-width: 700px;
   margin: 0 auto 0 0;
   align-items: flex-start;
+  position: relative;
 
   .chat-header {
     width: 100%;
@@ -61,6 +68,9 @@ const SingleChatContainer = styled.section`
     align-items: center;
     gap: 1rem;
     padding: 0.3rem;
+    position: sticky;
+    top: 0;
+    left: 0;
     a {
       color: var(--color-blue-400);
       font-size: 1.5rem;
@@ -87,12 +97,6 @@ const SingleChatContainer = styled.section`
         font-size: 0.75rem;
         color: var(--color-gray);
       }
-    }
-  }
-  @media screen and (max-width: 768px) {
-    margin: 0 auto;
-    .chat-header {
-      display: none;
     }
   }
 `;
