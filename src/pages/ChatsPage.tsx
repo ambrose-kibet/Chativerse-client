@@ -38,10 +38,11 @@ const ChatsPage = () => {
 };
 export default ChatsPage;
 const ChatsContainer = styled.section`
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
   width: 100%;
   max-width: 700px;
   margin: 0 auto 0 0;
@@ -52,6 +53,8 @@ const ChatsContainer = styled.section`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
 
     .title-container {
       h3 {
