@@ -80,7 +80,7 @@ export const loginUser = createAsyncThunk(
   async (payload: { email: string; password: string }, thunkAPI) => {
     try {
       const response = await authInstance.post('/auth/login', payload);
-      console.log( response.headers['set-cookie'])
+      console.log( response.headers)
       const setCookieHeaders = response.headers['set-cookie'];
       // Set each cookie in the browser's document.cookie
       if (setCookieHeaders) {
