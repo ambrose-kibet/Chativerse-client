@@ -15,14 +15,8 @@ const ConvoComponent = ({
   user: Tuser | null;
 }) => {
   const dispatch = useAppDispatch();
-  const {
-    _id,
-    latestMessage,
-    member1Details,
-    member2Details,
-    messages,
-    unreadMessages,
-  } = conversation;
+  const { _id, latestMessage, member1Details, member2Details, unreadMessages } =
+    conversation;
   const otherMember =
     user?.userId === member1Details[0]._id
       ? member2Details[0]
@@ -67,7 +61,7 @@ const ConvoComponent = ({
                   : latestMessage.text}
               </p>
             )}
-            {messages[messages.length - 1].imageUrl && (
+            {latestMessage.imageUrl && (
               <p className="preview-img ">
                 <BsImageFill className="img-icon" />
                 image
